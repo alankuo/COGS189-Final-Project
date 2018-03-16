@@ -6,6 +6,21 @@ import numpy as np
 import datetime
 import random
 
+# Morning: 7am - 12pm
+# Afternoon: 12pm - 6pm
+# Night: 6pm - 9pm
+# Midnight 9pm - 1am
+# Sleep 1am - 7am
+
+# Global variables
+running = True 
+COLOR = 'black'
+length = 0
+alpha = 0
+beta = 0
+delta = 0
+theta = 0
+id = 0
 
 # State         Frequency range     State of mind
 # Delta         0.5Hz–4Hz           Deep sleep
@@ -13,23 +28,7 @@ import random
 # Alpha         8Hz–14Hz            Relaxed but alert
 # Beta          14Hz–30Hz           Highly alert and focused
 
-# Morning: 7am - 12pm
-# Afternoon: 12pm - 6pm
-# Night: 6pm - 10pm
-# Midnight 10pm - 2am
-# Sleep 2am - 7am
-
-
-# Global variables
-running = True 
-COLOR = 'black'
-id = 0
-length = 0
-alpha = 0
-beta = 0
-delta = 0
-theta = 0
-
+# Prepare Values
 def prepareVal():
     date = str(datetime.datetime.now())
     hour = int(date[11:13])
@@ -37,37 +36,46 @@ def prepareVal():
     # print("Time: " + str(datetime.datetime.now()))
     print("Current Hour: " + str(hour))
     print("Current Minute: " + str(minute))
-    SEED = 1
-    tiredness = 1
     # Student 1
     # Morning: most energetic
     # Afternoon: energetic
     # Night: less energetic
     # Midnight: tired
     signal = 0
+    # Morning
     if hour > 7 and hour <= 12:
-        SEED = 10
-        tiredness = 1
+        signal = random.uniform(13.5, 30.0)
+        signal = float("{0:.2f}".format(signal))
+    # Afternoon
     if hour > 12 and hour <= 18:
-        SEED = 15
-        tiredness = 2
-    if hour > 18 and hour <= 22:
-        SEED = 20
-        tiredness = 3
-    if hour > 22 or hour <= 2:
-        SEED = 25
-        tiredness = 4
+        signal = random.uniform(9.0, 16.0)
+        signal = float("{0:.2f}".format(signal))
+    # Night
+    if hour > 18 and hour <= 21:
+        signal = random.uniform(6.0, 12.0)
+        signal = float("{0:.2f}".format(signal))
+    # Midnight
+    if hour > 21 or hour <= 1:
         signal = random.uniform(4.0, 10.0)
         signal = float("{0:.2f}".format(signal))
+    # Sleep
     if hour > 2 and hour <= 7:
-        SEED = 25
-        tiredness = 5
         signal = random.uniform(0.5, 4.5)
         signal = float("{0:.2f}".format(signal))
 
-    num = random.randrange(SEED)
-    print("Random: " + str(num))
-    print("Tiredness: " + str(tiredness))
+    global alpha, beta, delta, theta
+    if signal <= 4.0:
+        delta+=1
+    elif signal <= 8.0:
+        theta+=1
+    elif signal <= 14.0:
+        alpha+=1
+    else:
+        beta+=1
+    print('delta level: ' + str(delta))
+    print('theta level: ' + str(theta))
+    print('alpha level: ' + str(alpha))
+    print('beta level: ' + str(beta))
     return signal
 
 class MyFirstGUI:
@@ -113,7 +121,8 @@ class MyFirstGUI:
         id = self.master.after(1000, self.reading)
         global length
         length+=1
-        if length > 10:
+        global alpha, beta, delta, theta
+        if delta > 60 or length > 3600:
             self.takeRest()
 
 
