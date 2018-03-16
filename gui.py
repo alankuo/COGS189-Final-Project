@@ -89,7 +89,7 @@ def prepareVal():
     print('beta level: ' + str(beta))
     return signal, meditation
 
-class MyFirstGUI:
+class FocusGUI:
     def __init__(self, master):
         self.master = master
         master.title("Focus Up!")
@@ -102,7 +102,7 @@ class MyFirstGUI:
         self.label.pack()
 
         self.signal = None
-        self.attentionLvl = None
+        self.attentionLvl None
         self.meditationLvl = None
 
         # self.greet_button = Button(master, text="Greet", width=25, command=self.greet)
@@ -147,7 +147,7 @@ class MyFirstGUI:
         global length
         length+=1
         global alpha, beta, delta, theta
-        if delta > 60 or length > 3600:
+        if delta > 60 or theta > 50 or length > 10:
             self.takeRest()
 
 
@@ -174,7 +174,7 @@ class MyFirstGUI:
         self.master.quit()
 
 window = Tk()
-my_gui = MyFirstGUI(window)
+my_gui = FocusGUI(window)
 window.geometry('600x400')
 print('HERE ARE THE LOGS:')
 window.mainloop()
