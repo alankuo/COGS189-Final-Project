@@ -5,8 +5,8 @@ A distractive working environment and a overly-exhausted mind can greatly underm
 
 ## Usage
 Have python3 installed on your computer.  
-If you have not, you can download it here: https://www.python.org/downloads/
-**After installing,** navigate to the project folder and run the following command for GUI version:
+If you have not, you can download it here: https://www.python.org/downloads/  
+**After installing,** navigate to the project folder and run the following command for GUI version:  
 ```
 python gui.py
 ```
