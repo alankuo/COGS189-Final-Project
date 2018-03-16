@@ -44,8 +44,11 @@ class MyFirstGUI:
         self.master = master
         master.title("Focus Up!")
 
-        self.label = Label(master, text="This is our first GUI!")
+        label = Label(master, text="This is our first GUI!")
+        self.label = label
         self.label.pack()
+
+        self.signal = None
 
         # self.greet_button = Button(master, text="Greet", width=25, command=self.greet)
         # self.greet_button.pack()
@@ -71,8 +74,10 @@ class MyFirstGUI:
             print("Random: " + str(num))
             print("Random2: " + str(num2))
             print("Tiredness: " + str(tiredness))
-            self.label = Label(self.master, text=str(num))
-            self.label.pack()
+            if self.signal != None:
+                self.signal.destroy()
+            self.signal = Label(self.master, text="Random Brain Signal: "+str(num))
+            self.signal.pack()
         self.master.after(1000, self.reading)
 
     def start(self):
