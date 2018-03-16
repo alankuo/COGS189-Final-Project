@@ -6,19 +6,37 @@ import numpy as np
 import datetime
 import random
 
+
+# State         Frequency range     State of mind
+# Delta         0.5Hz–4Hz           Deep sleep
+# Theta         4Hz–8Hz             Drowsiness (also first stage of sleep)
+# Alpha         8Hz–14Hz            Relaxed but alert
+# Beta          14Hz–30Hz           Highly alert and focused
+
+# Morning: 7am - 12pm
+# Afternoon: 12pm - 6pm
+# Night: 6pm - 11pm
+# Midnight 11pm - 3am
+# Sleep 3am - 7am
+
+
 # Global variables
 running = True 
 COLOR = 'black'
 id = 0
 length = 0
+alpha = 0
+beta = 0
+delta = 0
+theta = 0
 
 def prepareVal():
     date = str(datetime.datetime.now())
     hour = int(date[11:13])
     minute = int(date[14:16])
     # print("Time: " + str(datetime.datetime.now()))
-    print("Hour: " + str(hour))
-    print("Minute: " + str(minute))
+    print("Current Hour: " + str(hour))
+    print("Current Minute: " + str(minute))
     SEED = 1
     tiredness = 1
     # Student 1
