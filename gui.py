@@ -6,6 +6,11 @@ import numpy as np
 import datetime
 import random
 
+# Global variables
+running = True 
+COLOR = 'black'
+id = 0
+
 def prepareVal():
     date = str(datetime.datetime.now())
     hour = int(date[11:13])
@@ -37,14 +42,15 @@ def prepareVal():
         tiredness = 5
     return hour, SEED, tiredness
 
-running = True  # Global flag
-
 class MyFirstGUI:
     def __init__(self, master):
         self.master = master
         master.title("Focus Up!")
 
-        label = Label(master, text="Welcome to Focus-Up Application!")
+        self.filler = Label(master, pady=40 ,text="")
+        self.filler.pack()
+
+        label = Label(master, text="Welcome to Focus-Up Application!!")
         self.label = label
         self.label.pack()
 
@@ -53,13 +59,16 @@ class MyFirstGUI:
         # self.greet_button = Button(master, text="Greet", width=25, command=self.greet)
         # self.greet_button.pack()
 
-        self.start_button = Button(master, text="Start Program", width=25, pady=10, command=self.start)
-        self.start_button.pack()
+        self.filler = Label(master, pady=25 ,text="")
+        self.filler.pack()
 
-        self.stop_button = Button(master, text='Pause Program', width=25, pady=10, command=self.stop)
-        self.stop_button.pack()
+        self.entry_button = Button(master, text="Start Program", width=25, highlightbackground=COLOR, pady=10, command=self.start)
+        self.entry_button.pack()
 
-        self.close_button = Button(master, text="Close Window", width=25, pady=10, command=master.quit)
+        # self.pause_button = Button(self.master, text='Pause Program', width=25, highlightbackground=COLOR, pady=10, command=self.pause)
+        # self.pause_button.pack()
+
+        self.close_button = Button(master, text="Close Window", width=25, highlightbackground=COLOR, pady=10, command=master.quit)
         self.close_button.pack()
 
         # self.btn = Button(master,text='Rest', width=25, command=self.clicked)
@@ -78,21 +87,26 @@ class MyFirstGUI:
                 self.signal.destroy()
             self.signal = Label(self.master, text="Random Brain Signal: "+str(num))
             self.signal.pack()
-        self.master.after(1000, self.reading)
+        global id
+        id = self.master.after(1000, self.reading)
+        # print('id is: '+id)
 
     def start(self):
         """Enable scanning by setting the global flag to True."""
         global running
         running = True
         self.reading()
+        #self.start_button.destroy()
+        #self.start_button = Button(self.master, text='Pause Program', width=25, highlightbackground=COLOR, pady=10, command=self.pause)
+        self.entry_button.configure(text='Pause Program', width=25, highlightbackground=COLOR, pady=10, command=self.pause)
 
-    def stop(self):
+    def pause(self):
         """Stop scanning by setting the global flag to False."""
-        global running
+        global running, id
         running = False
-
-    # def greet(self):
-    #     print("Greetings!")
+        self.master.after_cancel(id)
+        self.entry_button.configure(text="Start Program", width=25, highlightbackground=COLOR, pady=10, command=self.start)
+        # print('id in pause is: '+str(id))
 
     # def clicked(self):
     #     messagebox.showinfo('Take a Rest!!', 'You are not concentrating well enough, \
@@ -102,3 +116,12 @@ window = Tk()
 my_gui = MyFirstGUI(window)
 window.geometry('600x400')
 window.mainloop()
+
+
+
+
+
+
+
+
+
