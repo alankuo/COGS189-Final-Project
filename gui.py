@@ -42,26 +42,37 @@ def prepareVal():
     # Night: less energetic
     # Midnight: tired
     signal = 0
+    meditation = 0
     # Morning
     if hour > 7 and hour <= 12:
         signal = random.uniform(13.5, 30.0)
         signal = float("{0:.2f}".format(signal))
+        meditation = random.uniform(50, 80)
+        meditation = float("{0:.2f}".format(signal))
     # Afternoon
     if hour > 12 and hour <= 18:
         signal = random.uniform(9.0, 16.0)
         signal = float("{0:.2f}".format(signal))
+        meditation = random.uniform(10, 50)
+        meditation = float("{0:.2f}".format(signal))
     # Night
     if hour > 18 and hour <= 21:
         signal = random.uniform(6.0, 12.0)
         signal = float("{0:.2f}".format(signal))
+        meditation = random.uniform(40, 70)
+        meditation = float("{0:.2f}".format(signal))
     # Midnight
     if hour > 21 or hour <= 1:
         signal = random.uniform(4.0, 10.0)
         signal = float("{0:.2f}".format(signal))
+        meditation = random.uniform(60, 80)
+        meditation = float("{0:.2f}".format(signal))
     # Sleep
     if hour > 1 and hour <= 7:
         signal = random.uniform(0.5, 4.5)
         signal = float("{0:.2f}".format(signal))
+        meditation = random.uniform(80, 100)
+        meditation = float("{0:.2f}".format(signal))
 
     global alpha, beta, delta, theta
     if signal <= 4.0:
@@ -76,7 +87,7 @@ def prepareVal():
     print('theta level: ' + str(theta))
     print('alpha level: ' + str(alpha))
     print('beta level: ' + str(beta))
-    return signal
+    return signal, meditation
 
 class MyFirstGUI:
     def __init__(self, master):
@@ -111,7 +122,7 @@ class MyFirstGUI:
 
     def reading(self):
         if running:  # Only do this if the Stop button has not been clicked
-            brain_signal = prepareVal()
+            brain_signal, meditation_lvl = prepareVal()
             if self.signal != None:
                 self.signal.destroy()
                 self.attentionLvl.destroy()
@@ -123,7 +134,6 @@ class MyFirstGUI:
             self.signal.pack()
             attention_lvl = brain_signal/30*100
             attention_lvl = str(float("{0:.2f}".format(attention_lvl)))
-            meditation_lvl = brain_signal/21*99
             meditation_lvl = str(float("{0:.2f}".format(meditation_lvl)))
             print('brain signal: ' + str(brain_signal))
             print('attention level: ' + attention_lvl)
