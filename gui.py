@@ -59,7 +59,7 @@ def prepareVal():
         signal = random.uniform(4.0, 10.0)
         signal = float("{0:.2f}".format(signal))
     # Sleep
-    if hour > 2 and hour <= 7:
+    if hour > 1 and hour <= 7:
         signal = random.uniform(0.5, 4.5)
         signal = float("{0:.2f}".format(signal))
 
@@ -91,6 +91,8 @@ class MyFirstGUI:
         self.label.pack()
 
         self.signal = None
+        self.attentionLvl = None
+        self.meditationLvl = None
 
         # self.greet_button = Button(master, text="Greet", width=25, command=self.greet)
         # self.greet_button.pack()
@@ -112,11 +114,24 @@ class MyFirstGUI:
             brain_signal = prepareVal()
             if self.signal != None:
                 self.signal.destroy()
+                self.attentionLvl.destroy()
+                self.meditationLvl.destroy()
             else:
                 self.read = Label(self.master, text="Reading Your Current Brain Signal...")
                 self.read.pack()
             self.signal = Label(self.master, text="Your Current Brain Signal: "+str(brain_signal)+"Hz")
             self.signal.pack()
+            attention_lvl = brain_signal/30*100
+            attention_lvl = str(float("{0:.2f}".format(attention_lvl)))
+            meditation_lvl = brain_signal/21*99
+            meditation_lvl = str(float("{0:.2f}".format(meditation_lvl)))
+            print('brain signal: ' + str(brain_signal))
+            print('attention level: ' + attention_lvl)
+            print('meditation level: ' + meditation_lvl)
+            self.attentionLvl = Label(self.master, text="Your Attention Level: " + attention_lvl + "/100")
+            self.attentionLvl.pack()
+            self.meditationLvl = Label(self.master, text="Your Meditation Level: " + meditation_lvl + "/100")
+            self.meditationLvl.pack()
         global id
         id = self.master.after(1000, self.reading)
         global length
