@@ -44,7 +44,7 @@ class MyFirstGUI:
         self.master = master
         master.title("Focus Up!")
 
-        label = Label(master, text="This is our first GUI!")
+        label = Label(master, text="Welcome to Focus-Up Application!")
         self.label = label
         self.label.pack()
 
@@ -53,13 +53,13 @@ class MyFirstGUI:
         # self.greet_button = Button(master, text="Greet", width=25, command=self.greet)
         # self.greet_button.pack()
 
-        self.start_button = Button(master, text="Start Program", width=25, command=self.start)
+        self.start_button = Button(master, text="Start Program", width=25, pady=10, command=self.start)
         self.start_button.pack()
 
-        self.stop_button = Button(master, text='Pause Program', width=25, command=self.stop)
+        self.stop_button = Button(master, text='Pause Program', width=25, pady=10, command=self.stop)
         self.stop_button.pack()
 
-        self.close_button = Button(master, text="Close Window", width=25, command=master.quit)
+        self.close_button = Button(master, text="Close Window", width=25, pady=10, command=master.quit)
         self.close_button.pack()
 
         # self.btn = Button(master,text='Rest', width=25, command=self.clicked)
@@ -100,5 +100,5 @@ class MyFirstGUI:
 
 window = Tk()
 my_gui = MyFirstGUI(window)
-window.geometry('800x600')
+window.geometry('600x400')
 window.mainloop()
