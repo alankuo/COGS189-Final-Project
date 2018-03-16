@@ -10,6 +10,7 @@ import random
 running = True 
 COLOR = 'black'
 id = 0
+length = 0
 
 def prepareVal():
     date = str(datetime.datetime.now())
@@ -85,11 +86,18 @@ class MyFirstGUI:
             print("Tiredness: " + str(tiredness))
             if self.signal != None:
                 self.signal.destroy()
-            self.signal = Label(self.master, text="Random Brain Signal: "+str(num))
+            else:
+                self.read = Label(self.master, text="Reading Your Current Brain Signal...")
+                self.read.pack()
+            self.signal = Label(self.master, text="Your Current Brain Signal: "+str(num)+"Hz")
             self.signal.pack()
         global id
         id = self.master.after(1000, self.reading)
-        # print('id is: '+id)
+        global length
+        length+=1
+        if length > 5:
+            self.clicked()
+
 
     def start(self):
         """Enable scanning by setting the global flag to True."""
@@ -108,13 +116,15 @@ class MyFirstGUI:
         self.entry_button.configure(text="Start Program", width=25, highlightbackground=COLOR, pady=10, command=self.start)
         # print('id in pause is: '+str(id))
 
-    # def clicked(self):
-    #     messagebox.showinfo('Take a Rest!!', 'You are not concentrating well enough, \
-    #         take a rest before working on anything else!!')
+    def clicked(self):
+        messagebox.showinfo('Take a Rest!!', 'You are not concentrating well enough, \
+            take a rest before working on anything else!!!!!')
+        self.master.quit()
 
 window = Tk()
 my_gui = MyFirstGUI(window)
 window.geometry('600x400')
+print('HERE ARE THE LOGS:')
 window.mainloop()
 
 
