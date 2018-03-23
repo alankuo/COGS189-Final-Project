@@ -16,6 +16,7 @@ import pygame
 # Global variables
 running = True 
 COLOR = 'green'
+BGCOLOR = '#ebe1a5'
 length = 0
 alpha = 0
 beta = 0
@@ -33,7 +34,7 @@ id = 0
 # Prepare Values
 def prepareVal():
     date = str(datetime.datetime.now())
-    hour = int(date[11:13])
+    hour = int(date[11:13])+6
     minute = int(date[14:16])
     # print("Time: " + str(datetime.datetime.now()))
     print("Current Hour: " + str(hour))
@@ -96,10 +97,10 @@ class FocusGUI:
         self.master = master
         master.title("Focus Up!")
 
-        self.filler = Label(master, pady=40 ,text="")
+        self.filler = Label(master, bg=BGCOLOR, pady=40 ,text="")
         self.filler.pack()
 
-        label = Label(master, text="Welcome to Focus-Up Application!!")
+        label = Label(master, bg=BGCOLOR, text="Welcome to Focus-Up Application!!")
         self.label = label
         self.label.pack()
 
@@ -110,7 +111,7 @@ class FocusGUI:
         # self.greet_button = Button(master, text="Greet", width=25, command=self.greet)
         # self.greet_button.pack()
 
-        self.filler = Label(master, pady=25 ,text="")
+        self.filler = Label(master, bg=BGCOLOR, pady=25 ,text="")
         self.filler.pack()
 
         self.entry_button = Button(master, text="Start Program", width=25, highlightbackground=COLOR, pady=10, command=self.start)
@@ -119,6 +120,7 @@ class FocusGUI:
         # self.pause_button = Button(self.master, text='Pause Program', width=25, highlightbackground=COLOR, pady=10, command=self.pause)
         # self.pause_button.pack()
 
+        bgImage = tk.PhotoImage(file = "pic.png")
         # self.close_button = Button(master, text="Close Window", width=25, highlightbackground=COLOR, pady=10, command=master.quit)
         self.close_button = Button(master, text="Close Window", width=25, highlightbackground=COLOR, pady=10, command=master.quit)
         self.close_button.pack()
@@ -131,9 +133,9 @@ class FocusGUI:
                 self.attentionLvl.destroy()
                 self.meditationLvl.destroy()
             else:
-                self.read = Label(self.master, text="Reading Your Current Brain Signal...")
+                self.read = Label(self.master, bg=BGCOLOR, text="Reading Your Current Brain Signal...")
                 self.read.pack()
-            self.signal = Label(self.master, text="Your Current Brain Signal: "+str(brain_signal)+"Hz")
+            self.signal = Label(self.master, bg=BGCOLOR, text="Your Current Brain Signal: "+str(brain_signal)+"Hz")
             self.signal.pack()
             attention_lvl = brain_signal/30*100
             attention_lvl = str(float("{0:.2f}".format(attention_lvl)))
@@ -141,17 +143,25 @@ class FocusGUI:
             print('brain signal: ' + str(brain_signal))
             print('attention level: ' + attention_lvl)
             print('meditation level: ' + meditation_lvl)
-            self.attentionLvl = Label(self.master, text="Your Attention Level: " + attention_lvl + "/100")
+            self.attentionLvl = Label(self.master, bg=BGCOLOR, fg="blue", text="Your Attention Level: " + attention_lvl + "/100")
+            self.meditationLvl = Label(self.master, bg=BGCOLOR, fg="blue", text="Your Meditation Level: " + meditation_lvl + "/100")
+            if float(meditation_lvl) < 30:
+                self.meditationLvl.configure(fg="red")
+            elif float(meditation_lvl) < 60:
+                self.meditationLvl.configure(fg="orange")
+            if float(attention_lvl) < 30:
+                self.attentionLvl.configure(fg="red")
+            elif float(attention_lvl) < 60:
+                self.attentionLvl.configure(fg="orange")
             self.attentionLvl.pack()
-            self.meditationLvl = Label(self.master, text="Your Meditation Level: " + meditation_lvl + "/100")
             self.meditationLvl.pack()
         global id
         id = self.master.after(1000, self.reading)
         global length
         length+=1
         global alpha, beta, delta, theta
-        if delta > 60 or theta > 50 or length > 10:
-            self.takeRest()
+        #if delta > 60 or theta > 50 or length > 10:
+            #self.takeRest()
 
 
     def start(self):
@@ -173,7 +183,8 @@ class FocusGUI:
 
     def takeRest(self):
         messagebox.showinfo('Take a Rest!!', 'You are not concentrating well enough, \
-            take a rest before working on anything else!!!!!')
+            take a rest before working on anything else!!!!! We will now play a song for you to relax! \
+            Feel free to stop the music as you like:)')
         #self.master.quit()
         pygame.init()
         pygame.mixer.init()
@@ -199,6 +210,7 @@ class FocusGUI:
 window = Tk()
 my_gui = FocusGUI(window)
 window.geometry('600x400')
+window.configure(background=BGCOLOR)
 print('HERE ARE THE LOGS:')
 window.mainloop()
 
