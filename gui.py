@@ -160,8 +160,8 @@ class FocusGUI:
         global length
         length+=1
         global alpha, beta, delta, theta
-        #if delta > 60 or theta > 50 or length > 10:
-            #self.takeRest()
+        if alpha > 60 or theta > 20 or delta > 5 or length > 1800:
+            self.takeRest()
 
 
     def start(self):
