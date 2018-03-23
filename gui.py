@@ -5,6 +5,7 @@ import time
 import numpy as np
 import datetime
 import random
+import pygame
 
 # Morning: 7am - 12pm
 # Afternoon: 12pm - 6pm
@@ -14,13 +15,14 @@ import random
 
 # Global variables
 running = True 
-COLOR = 'black'
+COLOR = 'green'
 length = 0
 alpha = 0
 beta = 0
 delta = 0
 theta = 0
 id = 0
+
 
 # State         Frequency range     State of mind
 # Delta         0.5Hz–4Hz           Deep sleep
@@ -102,7 +104,7 @@ class FocusGUI:
         self.label.pack()
 
         self.signal = None
-        self.attentionLvl None
+        self.attentionLvl = None
         self.meditationLvl = None
 
         # self.greet_button = Button(master, text="Greet", width=25, command=self.greet)
@@ -117,6 +119,7 @@ class FocusGUI:
         # self.pause_button = Button(self.master, text='Pause Program', width=25, highlightbackground=COLOR, pady=10, command=self.pause)
         # self.pause_button.pack()
 
+        # self.close_button = Button(master, text="Close Window", width=25, highlightbackground=COLOR, pady=10, command=master.quit)
         self.close_button = Button(master, text="Close Window", width=25, highlightbackground=COLOR, pady=10, command=master.quit)
         self.close_button.pack()
 
@@ -158,20 +161,40 @@ class FocusGUI:
         self.reading()
         #self.start_button.destroy()
         #self.start_button = Button(self.master, text='Pause Program', width=25, highlightbackground=COLOR, pady=10, command=self.pause)
-        self.entry_button.configure(text='Pause Program', width=25, highlightbackground=COLOR, pady=10, command=self.pause)
+        self.entry_button.configure(text='Pause Program', width=25, highlightbackground=COLOR, bg=COLOR, pady=10, command=self.pause)
 
     def pause(self):
         """Stop scanning by setting the global flag to False."""
         global running, id
         running = False
         self.master.after_cancel(id)
-        self.entry_button.configure(text="Start Program", width=25, highlightbackground=COLOR, pady=10, command=self.start)
+        self.entry_button.configure(text="Start Program", width=25, highlightbackground=COLOR, bg=COLOR, pady=10, command=self.start)
         # print('id in pause is: '+str(id))
 
     def takeRest(self):
         messagebox.showinfo('Take a Rest!!', 'You are not concentrating well enough, \
             take a rest before working on anything else!!!!!')
-        self.master.quit()
+        #self.master.quit()
+        pygame.init()
+        pygame.mixer.init()
+        pygame.mixer.music.load('mus.mp3')
+        self.playMusic()
+        self.resetValues();
+
+    def resetValues(self):
+        global length, theta, delta
+        length = 0
+        theta = 0
+        delta = 0
+
+    def playMusic(self):
+        pygame.mixer.music.play()
+        self.pause()
+        self.entry_button.configure(text='Stop Music', width=25, highlightbackground='red', bg='red', pady=10, command=self.stopMusic)
+
+    def stopMusic(self):
+        pygame.mixer.music.stop()
+        self.entry_button.configure(text="Start Program", width=25, highlightbackground=COLOR, bg=COLOR, pady=10, command=self.start)
 
 window = Tk()
 my_gui = FocusGUI(window)
